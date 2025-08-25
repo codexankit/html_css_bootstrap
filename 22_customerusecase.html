@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Customer Use case</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <form>
+                <div class="form-group row">
+                    <label class="control-label col-sm-2">Name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="id1" placeholder="Enter Name here" onchange="validateName(this.value)"/>
+                        <span id="span1" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-sm-2">Email:</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="id2" placeholder="Enter Email here" onchange="validateEmail(this.value)"/>
+                        <span id="span2" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-sm-2">Contact:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="id3" placeholder="Enter Contact here" onchange="validateContact(this.value)"/>
+                        <span id="span3" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-sm-2">Account type:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="id4" onchange="validateAccount(this.value)">
+                            <option value="">Select Account Type</option>
+                            <option value="savings">Savings</option>
+                            <option value="current">Current</option>
+                        </select>
+                        <span id="span4" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2"></label>
+                    <div class="col-sm-10">
+                        <input type="button" class="btn btn-primary" id="id5" value="Add Customer" onclick="addCustomer()"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2"></label>
+                    <div class="col-sm-10">
+                        <span class="text-primary"></span>
+                </div>
+            </form>
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Account Type</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyid">
+                </tbody>
+        </div>
+        <script>
+            class Customer{
+                constructor(name, email, contact, accountType){
+                    this.name = name;
+                    this.email = email;
+                    this.contact = contact;
+                    this.accountType = accountType;
+                }
+
+                getName(){
+                    return this.name;
+                }
+                getEmail(){
+                    return this.email;
+                }
+                getContact(){
+                    return this.contact;
+                }
+                getAccountType(){
+                    return this.accountType;
+                }
+            }
+
+            function validateName(value){
+                var pattern = "^[A-Za-z]+$";
+                if(value.search(pattern) == -1){
+                    var span = document.getElementById('span1');
+                    span.innerText = "Name must contains only alphabets";
+                    return false;
+                }
+                else{
+                    var span = document.getElementById('span1');
+                    span.innerText = "";
+                    return true;
+                }
+            }
+            function validateEmail(value){
+                // var pattern = "^[A-Za-z]+$";
+                var pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+                // find the regular expression pattern for the email
+                if(value.search(pattern) == -1){
+                    var span = document.getElementById('span2');
+                    span.innerText = "Please Enter a valid email address";
+                    return false;
+                }
+                else{
+                    var span = document.getElementById('span2');
+                    span.innerText = "";
+                    return true;
+                }
+            }
+            function validateContact(value){
+                var pattern = "^[7-9]{1}[0-9]{9}$";
+                if(value.search(pattern) == -1){
+                    var span = document.getElementById('span3');
+                    span.innerText = "Enter only numbers - first digit from 7 - 9";
+                    return false;
+                }
+                else{
+                    var span = document.getElementById('span3');
+                    span.innerText = "";
+                    return true;
+                }
+            }
+            function validateAccount(value){
+                // var pattern = "^[A-Za-z]+$";
+                if(value == ""){
+                    var span = document.getElementById('span4');
+                    span.innerText = "Select Account Type";
+                    return false;
+                }
+                else{
+                    var span = document.getElementById('span4');
+                    span.innerText = "";
+                    return true;
+                }
+            }
+
+            function addCustomer(){
+                var name = document.getElementById("id1").value;
+                var email = document.getElementById("id2").value;
+                var contact = document.getElementById("id3").value;
+                var accountType = document.getElementById("id4").value;
+
+                if(validateName(name) && validateEmail(email) && validateContact(contact)
+                && validateAccount(accountType)){
+                    var customer = new Customer(name, email, contact, accountType);
+                    var table = document.querySelector("table");
+                    var tr = document.createElement("tr");
+                    tr.innerHTML = "<td>" + customer.getName() + "</td></td>"+
+                                            customer.getEmail() + "</td><td>"+
+                                            customer.getContact() + "</td><td>"+
+                                            customer.getAccountType() + "</td>";
+                }
+            }
+        </script>
+    </body>
+</html>
