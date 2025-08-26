@@ -1,3 +1,30 @@
+<!--This is kinda 3 layered structure: HTML structure, Booststrap styling, JavaScript logic 
+
+    The page has mainly 2 parts:
+    1. form 
+        - name
+        - email
+        - contact
+        - account type
+        - button
+    Each field also has <span> below it for showing validation error messages
+    
+    2. table
+    The <tbody id="tbodyid"> is initially empty. When we click Add Customer, JavaScript will insert 
+    a new <tr> (table row) inside this tbody.
+
+
+    BOOTSTRAP Styling
+    - form-control: nice input boxes
+    - btn btn-primary: styled blue hutton
+    - table table-bordered table-striped table-hover: styled table
+    basically all these saves us from writing the CSS manually
+
+
+-->
+
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -140,6 +167,26 @@
                 }
             }
 
+
+            /*
+            Adding customers
+            Steps:
+            1. grab all input values: id1, id2, id3, id4
+            2. run validations. if any fails - dont add
+            3. create a new Customer object
+            4. build a new <tr> row with <td> cells filled with customer data
+            5. append this <tr> to <tbody id="tbodyid">
+            Result - a new row appears in the table
+
+            Flow when we use it:
+            1. Enter details - onchange runs field validations
+            2. click Add Customer - addCustomer() runs
+            3. if all valid - new row is added in the table
+            4. error show up immediately below the input fields
+            
+            
+            
+            */
             function addCustomer(){
                 var name = document.getElementById("id1").value;
                 var email = document.getElementById("id2").value;
@@ -155,6 +202,7 @@
                                             customer.getEmail() + "</td><td>"+
                                             customer.getContact() + "</td><td>"+
                                             customer.getAccountType() + "</td>";
+                    document.getElementById("tbodyid").appendChild(tr);
                 }
             }
         </script>
